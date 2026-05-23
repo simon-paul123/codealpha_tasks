@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A premium web-based Hangman game featuring sleek glassmorphism, responsive design, on-screen keyboard, and smooth SVG illustrations.">
+    <title>Hangman - The Ultimate Word Guessing Challenge</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <span class="logo-hang">HANG</span><span class="logo-man">MAN</span>
+            </div>
+            
+            <!-- Scoreboard -->
+            <div class="scoreboard" id="scoreboard">
+                <div class="stat-box">
+                    <span class="stat-label">Streak</span>
+                    <span class="stat-value" id="stat-streak">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Wins</span>
+                    <span class="stat-value" id="stat-wins">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Ratio</span>
+                    <span class="stat-value" id="stat-ratio">0%</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Game Section -->
+        <main class="game-board">
+            <!-- Left Side: Dynamic SVG Hangman -->
+            <section class="hangman-section card">
+                <div class="svg-container">
+                    <svg viewBox="0 0 200 250" class="hangman-svg" id="hangman-svg" aria-label="Hangman illustration">
+                        <!-- Scaffold (Always visible) -->
+                        <path d="M20 230 L180 230" class="gallows-base" />
+                        <path d="M60 230 L60 20" class="gallows-post" />
+                        <path d="M60 20 L130 20" class="gallows-beam" />
+                        <path d="M130 20 L130 50" class="gallows-rope" />
+                        <path d="M60 50 L90 20" class="gallows-support" />
+
+                        <!-- Hangman Parts (Hidden by default, shown sequentially) -->
+                        <!-- 1. Head -->
+                        <circle cx="130" cy="70" r="20" class="body-part head" id="part-head" />
+                        
+                        <!-- 2. Torso -->
+                        <line x1="130" y1="90" x2="130" y2="150" class="body-part torso" id="part-torso" />
+                        
+                        <!-- 3. Left Arm -->
+                        <line x1="130" y1="110" x2="100" y2="130" class="body-part arm-left" id="part-arm-left" />
+                        
+                        <!-- 4. Right Arm -->
+                        <line x1="130" y1="110" x2="160" y2="130" class="body-part arm-right" id="part-arm-right" />
+                        
+                        <!-- 5. Left Leg -->
+                        <line x1="130" y1="150" x2="105" y2="200" class="body-part leg-left" id="part-leg-left" />
+                        
+                        <!-- 6. Right Leg -->
+                        <line x1="130" y1="150" x2="155" y2="200" class="body-part leg-right" id="part-leg-right" />
+                        
+                        <!-- Extra: Defeated Eyes (Shown only on loss) -->
+                        <g class="body-part dead-eyes" id="part-dead-eyes">
+                            <line x1="122" y1="66" x2="128" y2="72" />
+                            <line x1="128" y1="66" x2="122" y2="72" />
+                            <line x1="132" y1="66" x2="138" y2="72" />
+                            <line x1="138" y1="66" x2="132" y2="72" />
+                        </g>
+                    </svg>
+                </div>
+                
+                <!-- Heart/Lives Indicator -->
+                <div class="lives-indicator">
+                    <span class="lives-text">LIVES LEFT:</span>
+                    <div class="hearts-container" id="hearts-container" aria-label="Remaining incorrect guesses">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Side: Word Display and Keyboard -->
+            <section class="interaction-section">
+                <!-- Word display card -->
+                <div class="word-card card">
+                    <h2 class="section-title">GUESS THE WORD</h2>
+                    <div class="word-display" id="word-display" aria-live="polite">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                    <div class="message-banner" id="message-banner" aria-live="assertive">
+                        Guess a letter to start playing!
+                    </div>
+                </div>
+
+                <!-- Keyboard card -->
+                <div class="keyboard-card card">
+                    <div class="keyboard-container" id="keyboard-container">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                    <p class="hint-text">You can also use your physical keyboard!</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Dynamic Game-Over Modal Overlay -->
+        <div class="modal-overlay hidden" id="game-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="modal-content card">
+                <div class="modal-icon" id="modal-icon">🎉</div>
+                <h2 class="modal-title" id="modal-title">YOU WON!</h2>
+                
+                <div class="modal-stats">
+                    <p class="modal-word-reveal">The word was: <span id="secret-word-reveal">-----</span></p>
+                    <div class="modal-stat-row">
+                        <span>Attempts Made:</span>
+                        <strong id="modal-attempts">0</strong>
+                    </div>
+                    <div class="modal-stat-row">
+                        <span>Current Win Streak:</span>
+                        <strong id="modal-streak">0</strong>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn btn-primary" id="btn-play-again">Play Again</button>
+                    <button class="btn btn-secondary" id="btn-reset-stats">Reset Stats</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Subtle background glowing orbs -->
+        <div class="bg-glow-orb orb-1"></div>
+        <div class="bg-glow-orb orb-2"></div>
+    </div>
+
+    <!-- Main Game Script -->
+    <script src="app.js"></script>
+</body>
+</html>
