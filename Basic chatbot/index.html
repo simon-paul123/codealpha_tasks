@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbit AI | Interactive Rule-Based Chatbot</title>
+    <!-- Google Fonts for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background glow elements -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    
+    <div class="app-wrapper">
+        <header class="app-header">
+            <div class="brand">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                </div>
+                <div>
+                    <h1>Orbit AI</h1>
+                    <p class="subtitle">Rule-Based Interactive Assistant</p>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <button id="reset-chat" class="icon-btn" title="Reset Conversation">
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                    </svg>
+                    <span>Reset</span>
+                </button>
+                <button id="toggle-theme" class="icon-btn" title="Toggle Theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Left Panel: Chat Interface -->
+            <section class="chat-section card" id="chat-card">
+                <div class="chat-header">
+                    <div class="bot-profile">
+                        <div class="avatar-container">
+                            <div class="bot-avatar">🤖</div>
+                            <span class="status-dot pulsing"></span>
+                        </div>
+                        <div class="bot-info">
+                            <span class="bot-name">Orbit</span>
+                            <span class="bot-status">Active & responsive</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Messages will be injected here dynamically -->
+                </div>
+
+                <!-- Suggested Quick Replies -->
+                <div class="quick-replies" id="quick-replies">
+                    <button class="chip" data-phrase="hello">👋 Hello</button>
+                    <button class="chip" data-phrase="how are you">😊 How are you?</button>
+                    <button class="chip" data-phrase="who are you">🤖 Who are you?</button>
+                    <button class="chip" data-phrase="what time is it">🕒 What time is it?</button>
+                    <button class="chip" data-phrase="goodbye">👋 Goodbye</button>
+                </div>
+
+                <form class="chat-input-area" id="chat-form">
+                    <input type="text" id="user-input" autocomplete="off" placeholder="Ask me something (e.g., 'hello', 'how are you')..." required>
+                    <button type="submit" class="send-btn" id="send-btn">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification for highlighting -->
+    <div class="toast" id="toast">Code block highlighted!</div>
+
+    <script src="app.js"></script>
+</body>
+</html>
